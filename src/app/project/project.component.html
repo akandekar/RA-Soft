@@ -1,0 +1,95 @@
+<div class="w-full h-full flex">
+    <app-navigation [expanded]="expanded" (manualToggle)="manualToggle()"></app-navigation>
+    <div id="content">
+        <div *ngIf="local =='None'">
+            <div class="errorClss text-center" *ngFor="let er of errors">
+                <h3 style="color: red;font-weight: bold;">{{er}}</h3>
+            </div>
+            <div *ngIf="loginPage"
+                class="max-w-md mx-auto bg-gradient-to-r from-blue-400 to-green-400 shadow-xl rounded my-8 p-6">
+                <form [formGroup]="LoginForm" (ngSubmit)="checkLogin()">
+                <h2 class="text-2xl text-center font-bold mb-6 text-white">Sign in with Email & Password</h2>
+                <div class="w-4/5 mx-auto">
+
+                    <div class="flex items-center bg-white rounded-full shadow-md mb-4">
+                        <span class="px-3">
+                            <i class="far fa-envelope text-gray-500 w-4 h-4"></i>
+                        </span>
+                        <input
+                            class="w-full h-12 px-4 text-gray-700 focus:outline-none focus:ring-green-400 rounded-full placeholder-gray-400"
+                            type="email" formControlName="email" placeholder="Email">
+                    </div>
+                    <div class="flex items-center bg-white rounded-full shadow-md mb-4">
+                        <span class="px-3">
+                            <i class="fas fa-lock text-gray-500 w-4 h-4"></i>
+                        </span>
+                        <input
+                            class="w-full h-12 px-4 text-gray-700 focus:outline-none focus:ring-green-400 rounded-full placeholder-gray-400"
+                            type="password" formControlName="password" placeholder="Password">
+                    </div>
+
+                    <button
+                        class="bg-blue-500 hover:bg-blue-700 focus:bg-purple-700 w-full text-white text-sm uppercase rounded-full shadow-md py-3 transition-colors duration-300">Sign
+                        in</button>
+                </div>
+            </form>
+                <div class="text-center text-gray-300 mt-6">
+                    <p class="text-sm">Don't have an account? <a class="text-blue-100 hover:text-blue-400 font-bold"
+                            (click)="enable(2)">Sign up</a></p>
+                </div>
+            </div>
+
+            <div *ngIf="registerPage"
+                class="max-w-md mx-auto bg-gradient-to-r from-blue-400 to-green-400 shadow-xl rounded my-8 p-6">
+                <form [formGroup]="SignupForm" (ngSubmit)="onSubmit()">
+                    <h2 class="text-2xl text-center font-bold mb-6 text-white">Register Panal User</h2>
+                    <div class="w-4/5 mx-auto">
+                        <div class="flex items-center bg-white rounded-full shadow-md mb-4">
+                            <span class="px-3">
+                                <i class="far fa-envelope text-gray-500 w-4 h-4"></i>
+                            </span>
+                            <input
+                                class="w-full h-12 px-4 text-gray-700 focus:outline-none focus:ring-green-400 rounded-full placeholder-gray-400"
+                                type="text" formControlName="name" placeholder="Enter name">
+                        </div>
+
+                        <div class="flex items-center bg-white rounded-full shadow-md mb-4">
+                            <span class="px-3">
+                                <i class="far fa-envelope text-gray-500 w-4 h-4"></i>
+                            </span>
+                            <input
+                                class="w-full h-12 px-4 text-gray-700 focus:outline-none focus:ring-green-400 rounded-full placeholder-gray-400"
+                                type="email" formControlName="email" placeholder="Email">
+                        </div>
+
+                        <div class="flex items-center bg-white rounded-full shadow-md mb-4">
+                            <span class="px-3">
+                                <i class="fas fa-lock text-gray-500 w-4 h-4"></i>
+                            </span>
+                            <input
+                                class="w-full h-12 px-4 text-gray-700 focus:outline-none focus:ring-green-400 rounded-full placeholder-gray-400"
+                                type="password" formControlName="password" placeholder="Password">
+                        </div>
+
+
+                        <button type="submit"
+                            class="bg-blue-500 hover:bg-blue-700 focus:bg-purple-700 w-full text-white text-sm uppercase rounded-full shadow-md py-3 transition-colors duration-300">
+                            Register User</button>
+
+                        <div class="text-center text-gray-300 mt-6">
+                            <p class="text-sm">Already have account <a
+                                    class="text-blue-100 hover:text-blue-400 font-bold" (click)="enable(1)">Login</a>
+                            </p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div *ngIf="local != 'None'">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>
+<svg-definitions></svg-definitions>
+
+   

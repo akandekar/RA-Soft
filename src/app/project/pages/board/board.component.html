@@ -1,0 +1,32 @@
+<div class="flex flex-col w-full h-full py-8 pl-8 pr-6">
+    <breadcrumbs [items]="breadcrumbs"></breadcrumbs>
+    <header class="flex justify-between mt-3 text-textDarkest">
+        <div class="text-2xl font-medium">RA-Status board</div>
+        <div class="social-links">
+            <a href="./support"
+               target="_blank"
+               rel="noopener">
+                <j-button className="btn-secondary mr-2"> 🍺 Support
+                </j-button>
+            </a>
+
+            <a href="./media"
+               target="_blank"
+               rel="noopener">
+                <j-button className="btn-secondary mr-2"> 🎧 Media
+                </j-button>
+            </a>
+
+            <a href="./code"
+               target="_blank"
+               rel="noopener">
+                <j-button className="btn-secondary"
+                          icon="github">Source Code
+                </j-button>
+            </a>
+        </div>
+    </header>
+
+    <board-filter></board-filter>
+    <board-dnd></board-dnd>
+</div>

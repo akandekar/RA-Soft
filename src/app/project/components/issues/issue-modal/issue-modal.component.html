@@ -1,0 +1,10 @@
+<div class="px-3">
+    <issue-detail [issue]="issue$"
+                  [isShowFullScreenButton]="true"
+                  [isShowCloseButton]="true"
+                  [userList]="userList"
+                  (onClosed)="closeModal()"
+                  (onOpenIssue)="openIssuePage($event)"
+                  (onDelete)="deleteIssue($event)">
+    </issue-detail>
+</div>
