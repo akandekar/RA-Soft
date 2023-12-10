@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+    </style>
+</head>
+
+<body>
+    <input id="daterange">
+
+    <div class="container">
+        <h2>Test Data Table</h2>
+
+        <!-- <div class="input-group mb-3">
+      <input type="text" class="form-control" placeholder="Search..." aria-label="Search" id="data-search">
+    </div> -->
+        <button id="clear-filters-button" class="btn btn-primary">Clear All Filters</button>
+
+        <table id="data-table" class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Position</th>
+                    <th>Office</th>
+                    <th>Age</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Salary</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Date range vars
+
+            let minDateFilter = "";
+            let maxDateFilter = "";
+            // Generate 100 test records
+            const data = [];
+            for (let i = 0; i < 100; i++) {
+                data.push({
+                    name: `Test User ${i + 1}`,
+                    position: `Position ${i + 1}`,
+                    office: `Office ${i + 1}`,
+                    age: Math.floor(Math.floor(Math.random() * 65) + 20),
+                    startDate: new Date(2008, Math.floor(Math.random() * 12), Math.floor(Math.random() * 28) + 1).toISOString().split('T')[0],
+                    endDate: new Date(2023, Math.floor(Math.random() * 12), Math.floor(Math.random() * 28) + 1).toISOString().split('T')[0],
+                    salary: Math.floor(Math.random() * 1000000) + 100000,
+                });
+            }
+
+            const dataTable = $('#data-table').DataTable({
+                data: data,
+                columns: [
+                    { data: 'name' },
+                    { data: 'position' },
+                    { data: 'office' },
+                    { data: 'age' },
+                    { data: 'startDate' },
+                    { data: 'endDate' },
+                    { data: 'salary' },
+                ],
+                pagingType: 'full_numbers',
+                search: {
+                    search: $('#data-search').val(),
+                },
+            });
+
+            // Enable individual column search on keyup
+            $('#data-table thead th').each(function (index) {
+                const input = $('<input type="text" placeholder="Search" />');
+                input.on('keyup change', function () {
+                    dataTable.column(index).search($(this).val()).draw();
+                });
+                $(this).append(input);
+            });
+
+            $("#daterange").daterangepicker();
+            $("#daterange").on("apply.daterangepicker", function (ev, picker) {
+                minDateFilter = Date.parse(picker.startDate);
+                maxDateFilter = Date.parse(picker.endDate);
+
+                $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
+                    var date = Date.parse(data[1]);
+
+                    if (
+                        (isNaN(minDateFilter) && isNaN(maxDateFilter)) ||
+                        (isNaN(minDateFilter) && date <= maxDateFilter) ||
+                        (minDateFilter <= date && isNaN(maxDateFilter)) ||
+                        (minDateFilter <= date && date <= maxDateFilter)
+                    ) {
+                        return true;
+                    }
+                    return false;
+                });
+                dataTable.draw();
+            });
+
+            // Add click event listener to the button
+            $("#clear-filters-button").on("click", function () {
+                // // Clear date range filters
+                // $("#daterange").val("");
+                // minDateFilter = "";
+                // maxDateFilter = "";
+
+                // // Clear all custom search functions
+                // $.fn.dataTable.ext.search.length = 0;
+
+                // // Trigger data table draw without any filters
+                // dataTable.draw();
+                window.location.reload()
+            });
+
+        });
+
+
+
+    </script>
+</body>
+
+</html>
